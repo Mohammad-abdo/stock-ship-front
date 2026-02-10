@@ -1,0 +1,104 @@
+/* Google Fonts - Must be before @import tailwindcss */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+/* Tajawal font for all languages (supports Arabic and English) */
+html *:not(i) {
+  font-family: "Tajawal", sans-serif;
+}
+
+/* Global responsive layout improvements for large screens */
+:root {
+  --container-max-width: 1440px;
+  --container-padding-mobile: 1rem;
+  --container-padding-tablet: 1.5rem;
+  --container-padding-desktop: 2rem;
+  --container-padding-large: 3rem;
+}
+
+/* Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Typography scale improvements for large screens */
+@media (min-width: 1280px) {
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+  
+  /* Max width for prose text blocks */
+  p {
+    max-width: 65ch;
+  }
+}
+
+/* Large screen improvements */
+@media (min-width: 1920px) {
+  h1 {
+    font-size: 3rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Swiper navigation button styling for better visibility */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #194386 !important;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px !important;
+  height: 40px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+/* Hide navigation on mobile */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}
+
+/* Swiper pagination styling */
+.swiper-pagination-bullet {
+  background: #194386 !important;
+  opacity: 0.3;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  width: 24px !important;
+  border-radius: 5px !important;
+}

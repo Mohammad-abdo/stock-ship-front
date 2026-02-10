@@ -1,0 +1,31 @@
+:root{
+  --nav-bg: #194386;
+
+  --primary: #194386;     /* لون النص/البوردر */
+  --accent: #F5AF00;      /* زر كن بائعاً */
+  --white: #ffffff; 
+  --bottom-bg: #EEF4FF;
+  --bottom-text: #1f2a44;
+  --bottom-divider: #dbe3f2;
+  --bottom-active: #194386;
+        /* خلفيات */
+}
+
+/* Fonts are handled globally in index.css based on lang attribute */
+body {
+  /* Font will be set by global CSS rules in index.css */
+}
+
+
+/* =============================================bottom navbar================ */
+/* .banner{
+  width: 100%;
+  height: 600px;
+  background-image: url('../src/assets/imgs/Banner.jpg');
+  background-size: cover;
+  background-position: center;
+  margin-top: -80px;
+  
+} */
+
+/* =======================================end navbar ======================*/
