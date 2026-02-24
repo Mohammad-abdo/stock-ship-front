@@ -33,9 +33,9 @@ export default function PopularGoodsChips({
   const itemsToDisplay = items || defaultItems;
   
   return (
-    <section dir={currentDir} className="w-full py-8 sm:py-10 bg-white">
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8">
-        <h3 className={`${currentDir === 'rtl' ? 'text-right' : 'text-left'} text-base font-semibold text-slate-800 md:text-xl`}>
+    <section dir={currentDir} className="w-full py-8 sm:py-10 xl:py-14 2xl:py-16 bg-white">
+      <div className="container-stockship py-6 sm:py-8 xl:py-10">
+        <h3 className={`${currentDir === 'rtl' ? 'text-right' : 'text-left'} text-base font-semibold text-slate-800 md:text-xl xl:text-2xl 2xl:text-3xl`}>
           {title || defaultTitle}
         </h3>
 

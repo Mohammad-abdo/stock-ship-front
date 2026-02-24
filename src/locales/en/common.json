@@ -68,7 +68,8 @@
     "allRightsReserved": "All rights reserved",
     "loginFailed": "Login failed. Please check your email and password",
     "guestLoginFailed": "Guest login failed",
-    "registrationFailed": "Registration failed"
+    "registrationFailed": "Registration failed",
+    "registrationSuccess": "Your account has been created successfully. You can complete your profile later when needed (e.g. to register as a seller or buyer)."
   },
   "orders": {
     "title": "My Orders",
@@ -688,8 +689,11 @@
     "companyAddress": "Company Address",
     "companyAddressPlaceholder": "Enter company address",
     "agreeTerms": "I agree to the terms and conditions",
+    "mustAgree": "You must agree to the terms and conditions to continue",
     "done": "Done",
-    "createAd": "Create Ad"
+    "createAd": "Create Ad",
+    "fieldRequired": "This field is required",
+    "pleaseFixErrors": "Please fix the highlighted fields below"
   },
   "orderTracking": {
     "title": "Track Order",

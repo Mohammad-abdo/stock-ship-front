@@ -1,19 +1,21 @@
-:root{
-  --nav-bg: #194386;
-
-  --primary: #194386;     /* لون النص/البوردر */
-  --accent: #F5AF00;      /* زر كن بائعاً */
-  --white: #ffffff; 
-  --bottom-bg: #EEF4FF;
-  --bottom-text: #1f2a44;
+/* Stockship - متوافق مع المتغيرات في index.css */
+:root {
+  --nav-bg: var(--stockship-nav-bg, #194386);
+  --primary: var(--stockship-primary, #194386);
+  --accent: var(--stockship-accent, #F5AF00);
+  --white: #ffffff;
+  --bottom-bg: var(--stockship-surface, #EEF4FF);
+  --bottom-text: var(--stockship-surface-dark, #1f2a44);
   --bottom-divider: #dbe3f2;
-  --bottom-active: #194386;
-        /* خلفيات */
+  --bottom-active: var(--stockship-primary, #194386);
 }
 
-/* Fonts are handled globally in index.css based on lang attribute */
-body {
-  /* Font will be set by global CSS rules in index.css */
+/* تحسينات responsive للعناصر المشتركة */
+@media (max-width: 639px) {
+  .container-stockship {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
 }
 
 

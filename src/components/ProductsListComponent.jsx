@@ -266,7 +266,7 @@ export default function ProductsListComponent({ categoryId = null, categorySlug 
         )}
 
         {view === "grid" ? (
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-6 xl:gap-6">
             {filteredItems.map((p) => {
               const activeImg = selectedImages[p.id] || p.mainImg;
               const isLiked = liked[p.id];

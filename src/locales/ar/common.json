@@ -69,7 +69,8 @@
     "loggingIn": "جاري تسجيل الدخول...",
     "loginFailed": "فشل تسجيل الدخول. يرجى التحقق من البريد الإلكتروني وكلمة المرور",
     "guestLoginFailed": "فشل تسجيل الدخول كزائر",
-    "registrationFailed": "فشل التسجيل"
+    "registrationFailed": "فشل التسجيل",
+    "registrationSuccess": "تم إنشاء حسابك بنجاح. يمكنك استكمال بياناتك لاحقاً عند الحاجة (مثل التسجيل كبائع أو مشترٍ)."
   },
   "orders": {
     "title": "طلباتي",
@@ -685,8 +686,11 @@
     "companyAddress": "عنوان الشركة",
     "companyAddressPlaceholder": "أدخل عنوان الشركة",
     "agreeTerms": "موافقة علي الشروط و الاحكام",
+    "mustAgree": "يجب الموافقة على الشروط والأحكام للمتابعة",
     "done": "تم",
-    "createAd": "إنشاء إعلان"
+    "createAd": "إنشاء إعلان",
+    "fieldRequired": "هذا الحقل مطلوب",
+    "pleaseFixErrors": "يرجى تصحيح الحقول المميزة أدناه"
   },
   "orderTracking": {
     "title": "تتبع الطلب",

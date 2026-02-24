@@ -37,7 +37,7 @@ import NegotiationsPage from "./pages/NegotiationsPage";
 import NegotiationDetailPage from "./pages/NegotiationDetailPage";
 import ClientPriceQuotePage from "./pages/ClientPriceQuotePage";
 import DealCartPage from "./pages/DealCartPage";
-
+//new
 function AppContent() {
   const location = useLocation();
 

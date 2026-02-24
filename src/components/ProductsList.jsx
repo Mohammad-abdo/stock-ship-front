@@ -55,12 +55,12 @@ export default function ProductsCarousel({title, categoryId = null, limit = 10})
   };
 
   return (
-    <section className="my-10" dir={currentDir}>
-      <div className="mx-auto  px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="my-10 xl:my-14 2xl:my-16" dir={currentDir}>
+      <div className="container-stockship">
         {/* Title */}
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-5 md:mb-6 xl:mb-8 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">{title}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[2.25rem] 2xl:text-5xl font-bold text-slate-900">{title}</h2>
           </div>
         </div>
 
@@ -90,9 +90,10 @@ export default function ProductsCarousel({title, categoryId = null, limit = 10})
             375: { slidesPerView: 1, spaceBetween: 12 },
             640: { slidesPerView: 2, spaceBetween: 16 },
             768: { slidesPerView: 2, spaceBetween: 16 },
-            1024: { slidesPerView: 3, spaceBetween: 20 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
             1280: { slidesPerView: 4, spaceBetween: 24 },
-            1536: { slidesPerView: 4, spaceBetween: 24 },
+            1536: { slidesPerView: 4, spaceBetween: 28 },
+            1920: { slidesPerView: 4, spaceBetween: 32 },
           }}
           grabCursor={true}
           keyboard={{ enabled: true }}

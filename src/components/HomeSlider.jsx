@@ -73,7 +73,7 @@ export default function HomeSlider() {
               <div
                 className="
                   relative isolate w-full overflow-hidden inline-block
-                  h-[90vh]
+                  h-[90vh] max-h-[720px] xl:max-h-[800px] 2xl:max-h-[880px]
 
                   after:content-[''] after:absolute after:inset-y-0 after:left-0 after:w-[30%]
                   after:bg-blue-900/40 after:blur-2xl after:pointer-events-none after:z-10
@@ -116,23 +116,23 @@ export default function HomeSlider() {
                   className={`
                     absolute inset-0 z-40
                     flex items-end ${currentDir === 'rtl' ? 'justify-end' : 'justify-start'}
-                    px-4 sm:px-8 lg:px-16
-                    pb-6 sm:pb-10 md:pb-14
+                    px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32
+                    pb-6 sm:pb-10 md:pb-14 xl:pb-18 2xl:pb-20
                   `}
                 >
                   <div
                     className={`
                       ${currentDir === 'rtl' ? 'ml-auto' : 'mr-auto'} w-full
-                      max-w-[520px] md:max-w-[600px]
+                      max-w-[520px] md:max-w-[600px] xl:max-w-[640px] 2xl:max-w-[700px]
                       text-white ${currentDir === 'rtl' ? 'text-right' : 'text-left'}
                       flex flex-col ${currentDir === 'rtl' ? 'items-end' : 'items-start'}
                     `}
                   >
-                    <h1 className="font-['Tajawal'] font-bold text-[20px] sm:text-[25px] md:text-[30px] leading-tight w-full drop-shadow-md">
+                    <h1 className="font-['Tajawal'] font-bold text-[20px] sm:text-[25px] md:text-[30px] xl:text-[2.25rem] 2xl:text-4xl leading-tight w-full drop-shadow-md">
                       {i18n.language === 'ar' ? slider.titleAr : slider.titleEn}
                     </h1>
 
-                    <p className="mt-4 font-['Tajawal'] text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed text-white/90 max-w-full drop-shadow-sm">
+                    <p className="mt-4 font-['Tajawal'] text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl leading-relaxed text-white/90 max-w-full drop-shadow-sm">
                       {i18n.language === 'ar' ? slider.descriptionAr : slider.descriptionEn}
                     </p>
 

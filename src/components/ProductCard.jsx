@@ -16,8 +16,8 @@ export default function ProductCard({
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <div className="w-full h-full overflow-hidden rounded-xl sm:rounded-2xl border-0 p-2 sm:p-3 py-4 sm:py-5 bg-[#F0F2F5] shadow-sm flex flex-col">
-      {/* Image */}
+    <div className="w-full h-full overflow-hidden rounded-xl sm:rounded-2xl border-0 p-2 sm:p-3 lg:p-3 xl:p-4 py-4 sm:py-5 lg:py-5 xl:py-6 bg-[#F0F2F5] shadow-sm flex flex-col">
+      {/* Image - ارتفاع أوضح على الشاشات الكبيرة */}
       <div className="relative flex-shrink-0">
         <img
           src={
@@ -25,7 +25,7 @@ export default function ProductCard({
             "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=1200&q=80&auto=format&fit=crop"
           }
           alt={title}
-          className="h-48 sm:h-56 w-full rounded-xl sm:rounded-2xl object-cover aspect-[4/3]"
+          className="h-48 sm:h-56 lg:h-52 xl:h-56 2xl:h-60 w-full rounded-xl sm:rounded-2xl object-cover aspect-[4/3]"
           loading="lazy"
         />
 
@@ -38,13 +38,13 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-4 text-right flex-1 flex flex-col">
+      <div className="p-3 sm:p-4 lg:p-3 xl:p-4 text-right flex-1 flex flex-col">
         {category && (
-          <div className="text-xs sm:text-sm text-slate-500">{category}</div>
+          <div className="text-xs sm:text-sm xl:text-sm text-slate-500">{category}</div>
         )}
 
         {title && (
-          <div className="mt-1 text-base sm:text-lg font-bold text-slate-900 line-clamp-2">{title}</div>
+          <div className="mt-1 text-base sm:text-lg xl:text-base 2xl:text-lg font-bold text-slate-900 line-clamp-2">{title}</div>
         )}
 
         {/* Rating */}
@@ -57,9 +57,9 @@ export default function ProductCard({
           {subtitle}
         </div>
         {/* Buttons */}
-        <div className="mt-4 sm:mt-6 flex items-center justify-between gap-2 flex-shrink-0">
+        <div className="mt-4 sm:mt-6 xl:mt-5 flex items-center justify-between gap-2 flex-shrink-0">
           <Link to={`/offers/${id || 1}`} className="flex-1">
-            <div className="rounded-lg sm:rounded-xl border border-slate-300 bg-white py-2 sm:py-2.5 text-center text-xs sm:text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors">       
+            <div className="rounded-lg sm:rounded-xl border border-slate-300 bg-white py-2 sm:py-2.5 xl:py-3 text-center text-xs sm:text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors">       
               {t("product.viewDetails")}
             </div>
           </Link>

@@ -171,18 +171,18 @@ export default function Navbar() {
         className="
           w-full bg-(--nav-bg)
           flex items-center justify-between
-          px-3 sm:px-4 md:px-6 lg:px-10 xl:px-20
-          py-1.5 sm:py-2 md:py-2.5
-          gap-2 sm:gap-3
+          px-3 sm:px-4 md:px-6 lg:px-10 xl:px-24 2xl:px-32
+          py-1.5 sm:py-2 md:py-2.5 xl:py-3
+          gap-2 sm:gap-3 xl:gap-4
         "
       >
         <Link to={ROUTES.HOME} className="flex items-center justify-end shrink-0">
-          <img src={logo} alt="logo" className="h-6 sm:h-7 md:h-8 lg:h-9 w-auto" />
+          <img src={logo} alt="logo" className="h-6 sm:h-7 md:h-8 lg:h-9 xl:h-10 2xl:h-11 w-auto" />
         </Link>
 
         <form
           onSubmit={handleSearch}
-          className="hidden lg:flex flex-1 max-w-md lg:max-w-lg xl:max-w-xl mx-2 lg:mx-4 h-8 sm:h-9 md:h-10 lg:h-11 items-center justify-between gap-2 sm:gap-3 bg-(--white) rounded-[5px] px-2 sm:px-3 md:px-4"
+          className="hidden lg:flex flex-1 max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-2 lg:mx-4 xl:mx-6 h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 items-center justify-between gap-2 sm:gap-3 bg-(--white) rounded-lg px-3 md:px-4 xl:px-5"
         >
           <img src={camera} alt="camera" className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 shrink-0" />
           <input
@@ -290,9 +290,10 @@ export default function Navbar() {
           onClick={() => setIsSidebarOpen(true)}
           className="
             lg:hidden
-            inline-flex h-10 w-10 items-center justify-center
-            rounded-md border border-white/30
+            inline-flex min-h-[44px] min-w-[44px] items-center justify-center
+            rounded-lg border border-white/30
             bg-black/20 backdrop-blur-md text-white
+            touch-manipulation
           "
           aria-label={t("nav.openMenu") || "Open menu"}
         >

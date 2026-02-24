@@ -42,22 +42,22 @@ export default function RecommendedProducts() {
   };
 
   return (
-    <section className="mt-10 mb-10" dir={currentDir}>
-      <div className="mx-auto  px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="mt-10 mb-10 xl:mt-14 xl:mb-14 2xl:mt-16 2xl:mb-16" dir={currentDir}>
+      <div className="container-stockship">
         {/* Title */}
-        <div className="mb-4">
-          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 ${currentDir === 'rtl' ? 'text-right' : 'text-left'}`}>
+        <div className="mb-5 md:mb-6 xl:mb-8">
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-[2.25rem] 2xl:text-5xl font-bold text-slate-900 ${currentDir === 'rtl' ? 'text-right' : 'text-left'}`}>
             {t("recommended.title")}
           </h2>
         </div>
 
-        {/* Grid: 5 فوق + 5 تحت على الشاشات الكبيرة */}
+        {/* Grid: ديسكتوب 4-5-6 أعمدة */}
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-slate-500">{t("common.loading") || "Loading..."}</div>
           </div>
         ) : products.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-x-6 gap-y-6 xl:gap-8">
             {products.map((p) => (
               <ProductCard
                 key={p.id}

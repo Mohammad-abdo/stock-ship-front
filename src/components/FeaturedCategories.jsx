@@ -44,11 +44,11 @@ export default function FeaturedCategories() {
   return (
     <section
       dir={currentDir}
-      className="w-full bg-slate-50 py-8 sm:py-10 md:py-12"
+      className="w-full bg-slate-50 py-8 sm:py-10 md:py-12 xl:py-16 2xl:py-20"
     >
-      <div className="mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+      <div className="container-stockship">
         {/* Top features */}
-        <div className="w-full flex flex-col md:flex-row justify-around items-start md:items-center gap-6 md:gap-7">
+        <div className="w-full flex flex-col md:flex-row justify-around items-start md:items-center gap-6 md:gap-7 xl:gap-10 2xl:gap-12">
           {features.map((f) => (
             <div
               key={f.title}
@@ -59,21 +59,21 @@ export default function FeaturedCategories() {
                 src={f.icon}
                 alt={f.title}
               />
-              <div className={`${currentDir === 'rtl' ? 'text-right' : 'text-left'} w-full md:w-[291.33px]`}>
-                <div className="text-lg font-bold text-slate-800 w-full text-[24px]">
+              <div className={`${currentDir === 'rtl' ? 'text-right' : 'text-left'} w-full md:w-[291.33px] xl:max-w-xs`}>
+                <div className="text-lg font-bold text-slate-800 w-full text-[24px] xl:text-2xl 2xl:text-3xl">
                   {f.title}
                 </div>
-                <div className="text-sm text-slate-700 font-bold">{f.desc}</div>
+                <div className="text-sm xl:text-base text-slate-700 font-bold">{f.desc}</div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Cards */}
-        <div className="mt-8 flex flex-col gap-4 sm:gap-6 lg:flex-row h-auto lg:h-[450px]">
+        {/* Cards - ارتفاعات أكبر على الشاشات الكبيرة */}
+        <div className="mt-8 xl:mt-12 2xl:mt-14 flex flex-col gap-4 sm:gap-6 xl:gap-8 lg:flex-row h-auto lg:h-[450px] xl:h-[520px] 2xl:h-[560px]">
           {/* right card */}
-          <div className="w-full lg:w-[70%] h-auto lg:h-[450px] overflow-hidden flex flex-col gap-5">
-            <div className="flex flex-col gap-4 sm:gap-6 lg:flex-row overflow-hidden h-auto lg:h-[48%]">
+          <div className="w-full lg:w-[70%] h-auto lg:h-[450px] xl:h-[520px] 2xl:h-[560px] overflow-hidden flex flex-col gap-5 xl:gap-6">
+            <div className="flex flex-col gap-4 sm:gap-6 xl:gap-8 lg:flex-row overflow-hidden h-auto lg:h-[48%]">
               {/* one */}
               <div className="w-full lg:w-[40%] bg-[#373737] min-h-50 lg:min-h-0 lg:h-full group relative overflow-hidden rounded-2xl">
                 <div className={`absolute inset-0 p-6 text-white z-10 ${currentDir === 'rtl' ? 'w-[80%]' : 'w-[80%]'}`}>

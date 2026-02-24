@@ -19,9 +19,9 @@ export default function Layout({
   contentClassName = ''
 }) {
   return (
-    <div className={className}>
+    <div className={`min-h-screen flex flex-col ${className}`}>
       {showHeader && <Header />}
-      <main className={contentClassName}>
+      <main className={`flex-1 w-full ${contentClassName}`}>
         {children}
       </main>
       {showFooter && <FooterArabic />}

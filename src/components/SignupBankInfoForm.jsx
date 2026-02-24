@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../routes";
 import api from "../services/api";
 
-const Field = ({ label, required, value, onChange, placeholder = "...", currentDir = 'rtl', disabled = false }) => {
+const Field = ({ label, required, value, onChange, placeholder = "...", currentDir = 'rtl', disabled = false, error = "" }) => {
+  const hasError = !!error;
   return (
     <div className="w-full">
       <label className={`block text-sm font-semibold text-slate-800 ${currentDir === 'rtl' ? 'text-right' : 'text-left'}`}>
@@ -17,11 +18,21 @@ const Field = ({ label, required, value, onChange, placeholder = "...", currentD
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        className={`mt-2 w-full rounded-md border border-blue-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-200 ${disabled ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : 'bg-white'}`}
+        className={`mt-2 w-full rounded-md border px-4 py-3 text-sm outline-none focus:ring-2 ${hasError ? 'border-red-400 focus:ring-red-200 focus:border-red-500 bg-red-50/50' : 'border-blue-200 focus:ring-blue-200'} ${disabled ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : 'bg-white'}`}
       />
+      {hasError && (
+        <p className={`mt-1 text-xs text-red-600 ${currentDir === 'rtl' ? 'text-right' : 'text-left'}`} role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
+
+const REQUIRED_FIELDS = [
+  'fullName', 'phone', 'email', 'city', 'country',
+  'bankAccountName', 'bankAccountNumber', 'bankName', 'bankAddress', 'bankCode', 'swift', 'region', 'companyAddress'
+];
 
 export default function SignupBankInfoForm() {
   const { t, i18n } = useTranslation();
@@ -29,6 +40,7 @@ export default function SignupBankInfoForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const [form, setForm] = useState({
     fullName: "",
@@ -64,7 +76,10 @@ export default function SignupBankInfoForm() {
     }
   }, [user]);
 
-  const set = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const set = (k) => (e) => {
+    setForm((p) => ({ ...p, [k]: e.target.value }));
+    setFieldErrors((p) => ({ ...p, [k]: '' }));
+  };
   const setCheck = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.checked }));
 
   const onSubmit = async (e) => {
@@ -74,8 +89,23 @@ export default function SignupBankInfoForm() {
       return;
     }
 
+    const requiredMsg = t("signupBankInfo.fieldRequired");
+    const errors = {};
+    for (const key of REQUIRED_FIELDS) {
+      const val = form[key];
+      if (val === undefined || val === null || String(val).trim() === '') {
+        errors[key] = requiredMsg;
+      }
+    }
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setError(t("signupBankInfo.pleaseFixErrors"));
+      return;
+    }
+
     setLoading(true);
     setError(null);
+    setFieldErrors({});
 
     try {
       const payload = {
@@ -83,33 +113,36 @@ export default function SignupBankInfoForm() {
         phone: form.phone,
         city: form.city,
         country: form.country,
-        // email is usually read-only or handled separately
-        
         bankAccountName: form.bankAccountName,
         bankAccountNumber: form.bankAccountNumber,
         bankName: form.bankName,
         bankAddress: form.bankAddress,
         bankCode: form.bankCode,
-        swiftCode: form.swift, // Map swift to swiftCode
+        swiftCode: form.swift,
         companyAddress: form.companyAddress,
-        // region: form.region // Backend doesn't support region yet, ignored
       };
 
       const response = await api.post('/traders/register', payload);
 
       if (response.data.success) {
-        // Navigate to Login page with pending approval message
-        navigate(ROUTES.LOGIN, { 
-          state: { 
-            message: t("signupBankInfo.pendingApprovalMessage") || "Application submitted successfully! Your account is pending admin approval." 
-          } 
+        navigate(ROUTES.LOGIN, {
+          state: {
+            message: t("signupBankInfo.pendingApprovalMessage") || "Application submitted successfully! Your account is pending admin approval."
+          }
         });
       } else {
-        setError(response.data.message || 'Registration failed');
+        const msg = response.data.message || 'Registration failed';
+        setError(msg);
+        if (msg.toLowerCase().includes('bank')) {
+          setFieldErrors((p) => ({ ...p, bankAccountName: msg, bankAccountNumber: '', bankName: '' }));
+        }
       }
     } catch (err) {
-      console.error('Update error:', err);
-      setError(err.response?.data?.message || 'An error occurred. Please try again.');
+      const msg = err.response?.data?.message || 'An error occurred. Please try again.';
+      setError(msg);
+      if (msg.toLowerCase().includes('bank')) {
+        setFieldErrors((p) => ({ ...p, bankAccountName: msg }));
+      }
     } finally {
       setLoading(false);
     }
@@ -122,6 +155,12 @@ export default function SignupBankInfoForm() {
           onSubmit={onSubmit}
           className="rounded-xl border border-slate-100 bg-white shadow-sm p-6 sm:p-8 space-y-10"
         >
+          {error && (
+            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+              {error}
+            </div>
+          )}
+
           {/* Section 1 */}
           <div>
             <div className="text-center text-lg font-bold text-slate-900">
@@ -137,6 +176,7 @@ export default function SignupBankInfoForm() {
                 placeholder={t("signupBankInfo.fullNamePlaceholder")}
                 currentDir={currentDir}
                 disabled={!!user?.name}
+                error={fieldErrors.fullName}
               />
               <Field
                 label={t("signupBankInfo.phone")}
@@ -146,6 +186,7 @@ export default function SignupBankInfoForm() {
                 placeholder={t("signupBankInfo.phonePlaceholder")}
                 currentDir={currentDir}
                 disabled={!!user?.phone}
+                error={fieldErrors.phone}
               />
             </div>
 
@@ -157,7 +198,8 @@ export default function SignupBankInfoForm() {
                 onChange={set("email")}
                 placeholder={t("signupBankInfo.emailPlaceholder")}
                 currentDir={currentDir}
-                disabled={!!user?.email} // Email is read-only if present
+                disabled={!!user?.email}
+                error={fieldErrors.email}
               />
             </div>
 
@@ -170,6 +212,7 @@ export default function SignupBankInfoForm() {
                 placeholder={t("signupBankInfo.cityPlaceholder")}
                 currentDir={currentDir}
                 disabled={!!user?.city}
+                error={fieldErrors.city}
               />
               <Field
                 label={t("signupBankInfo.country")}
@@ -179,6 +222,7 @@ export default function SignupBankInfoForm() {
                 placeholder={t("signupBankInfo.countryPlaceholder")}
                 currentDir={currentDir}
                 disabled={!!user?.country}
+                error={fieldErrors.country}
               />
             </div>
           </div>
@@ -197,6 +241,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("bankAccountName")}
                 placeholder={t("signupBankInfo.bankAccountNamePlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.bankAccountName}
               />
 
               <Field
@@ -206,6 +251,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("bankAccountNumber")}
                 placeholder={t("signupBankInfo.bankAccountNumberPlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.bankAccountNumber}
               />
 
               <Field
@@ -215,6 +261,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("bankName")}
                 placeholder={t("signupBankInfo.bankNamePlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.bankName}
               />
 
               <Field
@@ -224,6 +271,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("bankAddress")}
                 placeholder={t("signupBankInfo.bankAddressPlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.bankAddress}
               />
 
               <Field
@@ -233,6 +281,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("bankCode")}
                 placeholder={t("signupBankInfo.bankCodePlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.bankCode}
               />
 
               <Field
@@ -242,6 +291,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("swift")}
                 placeholder={t("signupBankInfo.swiftPlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.swift}
               />
 
               <Field
@@ -251,6 +301,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("region")}
                 placeholder={t("signupBankInfo.regionPlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.region}
               />
 
               <Field
@@ -260,6 +311,7 @@ export default function SignupBankInfoForm() {
                 onChange={set("companyAddress")}
                 placeholder={t("signupBankInfo.companyAddressPlaceholder")}
                 currentDir={currentDir}
+                error={fieldErrors.companyAddress}
               />
             </div>
 

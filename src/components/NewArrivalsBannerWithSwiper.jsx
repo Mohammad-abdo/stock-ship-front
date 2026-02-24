@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, Keyboard } from "swiper/modules";
-import LanguageSwitcher from "./LanguageSwitcher";
+import { Autoplay, Pagination, Keyboard } from "swiper/modules";
+import { Clock } from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -21,7 +21,7 @@ export default function NewArrivalsBannerWithSwiper() {
       secondary: t("newArrivals.fastDelivery"),
       image:
         "https://images.unsplash.com/photo-1607082349566-1870e3fdc793?w=1200&q=80&auto=format&fit=crop",
-      gradient: "from-[#6D2AA8] via-[#5B2A9F] to-[#3E1F86]",
+      theme: "primary", // Stockship blue
     },
     {
       id: 2,
@@ -32,7 +32,7 @@ export default function NewArrivalsBannerWithSwiper() {
       secondary: t("newArrivals.fastDelivery"),
       image:
         "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=1200&q=80&auto=format&fit=crop",
-      gradient: "from-[#2A63A8] via-[#245AA0] to-[#183A7A]",
+      theme: "dark",
     },
     {
       id: 3,
@@ -43,13 +43,13 @@ export default function NewArrivalsBannerWithSwiper() {
       secondary: t("newArrivals.cashOnDelivery"),
       image:
         "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=1200&q=80&auto=format&fit=crop",
-      gradient: "from-[#A82A6B] via-[#9F2A5B] to-[#861F3E]",
+      theme: "accent",
     },
   ];
 
   return (
-    <section dir={currentDir} className="w-full py-6 sm:py-8 md:py-10">
-      <div className="relative">
+    <section dir={currentDir} className="w-full py-6 sm:py-8 md:py-10 xl:py-12 2xl:py-14">
+      <div className="container-stockship relative">
        
         <Swiper
           modules={[Autoplay, Pagination,  Keyboard]}
@@ -80,65 +80,70 @@ export default function NewArrivalsBannerWithSwiper() {
   );
 }
 
+const themeStyles = {
+  primary:
+    "bg-[var(--stockship-primary)] text-white",
+  dark:
+    "bg-slate-800 text-white",
+  accent:
+    "bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 text-white",
+};
+
 function BannerSlide({ slide, currentDir }) {
+  const theme = slide.theme || "primary";
+  const isRTL = currentDir === "rtl";
+
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r ${slide.gradient} min-h-[280px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]`}
+      className={`relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl ${themeStyles[theme]} min-h-[300px] sm:min-h-[340px] md:min-h-[400px] lg:min-h-[440px] xl:min-h-[480px] 2xl:min-h-[520px]`}
     >
-      <div className={`relative flex flex-col ${currentDir === 'rtl' ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-between gap-4 sm:gap-6 p-4 sm:p-6 md:p-8 lg:p-10 h-full`}>
-        <div className="w-full md:w-[48%] shrink-0">
-          <img
-            src={slide.image}
-            alt="banner"
-            className="h-40 sm:h-48 md:h-60 lg:h-72 w-full rounded-xl sm:rounded-2xl object-cover"
-            draggable="false"
-            loading="lazy"
-          />
+      {/* زخرفة خفيفة للعمق */}
+      <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-white" />
+      </div>
+
+      <div
+        className={`relative flex flex-col ${isRTL ? "md:flex-row-reverse" : "md:flex-row"} items-center justify-between gap-6 sm:gap-8 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16 h-full`}
+      >
+        {/* صورة المنتج - إطار احترافي */}
+        <div className="w-full md:w-[45%] lg:w-[42%] shrink-0">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 bg-white/5">
+            <img
+              src={slide.image}
+              alt=""
+              className="h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 w-full object-cover"
+              draggable="false"
+              loading="lazy"
+            />
+          </div>
         </div>
 
-        <div className={`w-full md:w-[52%] ${currentDir === 'rtl' ? 'text-right' : 'text-left'} text-white flex flex-col justify-center`}>
-          <div className="inline-flex items-center rounded-lg bg-[#2B135F]/70 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold">
+        {/* النص والأزرار */}
+        <div
+          className={`w-full md:w-[55%] lg:w-[58%] ${isRTL ? "text-right" : "text-left"} flex flex-col justify-center`}
+        >
+          <span className={`inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium tracking-wide backdrop-blur-sm ${isRTL ? 'ml-auto' : ''}`}>
             {slide.badge}
-          </div>
+          </span>
 
-          <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
-            {slide.title1} <br />
-            {slide.title2}
+          <h2 className="mt-4 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-5xl font-bold leading-tight tracking-tight text-white">
+            {slide.title1}
+            <br />
+            <span className="text-white/95">{slide.title2}</span>
           </h2>
 
-          <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-2 sm:gap-3">
+          <div className={`mt-6 sm:mt-8 flex flex-wrap items-center gap-3 ${isRTL ? "justify-end" : "justify-start"}`}>
             <button
               type="button"
-              className="inline-flex items-center gap-2 rounded-lg sm:rounded-xl bg-[#0F2D3A]/80 px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm font-bold hover:bg-[#0F2D3A] transition"
+              className="inline-flex items-center gap-2.5 rounded-xl border-2 border-white/30 bg-white/10 px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 hover:border-white/40"
             >
-              <span className="grid h-6 w-6 sm:h-8 sm:w-8 place-items-center rounded-lg bg-orange-500 shrink-0">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-white sm:w-[18px] sm:h-[18px]"
-                >
-                  <path
-                    d="M12 6v6l4 2"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </span>
+              <Clock className="w-5 h-5 shrink-0 opacity-90" />
               {slide.secondary}
             </button>
-
             <button
               type="button"
-              className="rounded-lg sm:rounded-xl bg-orange-500 px-5 py-2 sm:px-7 sm:py-3 text-xs sm:text-sm font-extrabold text-white hover:bg-orange-600 transition"
+              className="rounded-xl bg-[var(--stockship-accent)] px-6 py-2.5 sm:px-8 sm:py-3 text-sm font-bold text-[var(--stockship-primary)] shadow-lg transition hover:opacity-95 active:scale-[0.98]"
             >
               {slide.primary}
             </button>

@@ -6,6 +6,10 @@ import {
   Instagram,
   Twitter,
   Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../routes";
@@ -15,19 +19,24 @@ import paymentMethod from "../assets/imgs/payment-method.png";
 
 function FooterLinks({ title, links, currentDir }) {
   const { i18n } = useTranslation();
-  const dir = currentDir || (i18n.language === 'ar' ? 'rtl' : 'ltr');
-  
+  const dir = currentDir || (i18n.language === "ar" ? "rtl" : "ltr");
+  const isRTL = dir === "rtl";
+
   return (
-    <div className={dir === 'rtl' ? 'text-right' : 'text-left'}>
-      <h4 className="mb-4 text-lg font-semibold text-slate-900">{title}</h4>
-      <ul className="space-y-3 text-sm text-slate-600">
+    <div className={isRTL ? "text-right" : "text-left"}>
+      <h4 className="mb-5 text-base font-semibold text-slate-800 tracking-tight">
+        {title}
+      </h4>
+      <ul className="space-y-3.5 text-sm text-slate-600">
         {links.map((l, i) => (
           <li key={i}>
-            <Link 
+            <Link
               to={l.href || ROUTES.HOME}
-              className={`group inline-flex items-center gap-2 transition-colors hover:text-(--accent) hover:translate-x-1 ${dir === 'rtl' ? 'flex-row-reverse hover:translate-x-[-4px]' : ''}`}
+              className={`group inline-flex items-center gap-2 transition-colors hover:text-amber-600 ${isRTL ? "flex-row-reverse hover:translate-x-1" : "hover:-translate-x-0.5"}`}
             >
-              <ChevronLeft className={`h-4 w-4 text-slate-400 group-hover:text-(--accent) transition-colors ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+              <ChevronLeft
+                className={`h-4 w-4 text-slate-400 shrink-0 transition-colors group-hover:text-amber-500 ${isRTL ? "rotate-180" : ""}`}
+              />
               <span>{l.label}</span>
             </Link>
           </li>
@@ -43,8 +52,9 @@ export default function FooterArabic({
   columns,
 }) {
   const { t, i18n } = useTranslation();
-  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
-  
+  const currentDir = i18n.language === "ar" ? "rtl" : "ltr";
+  const isRTL = currentDir === "rtl";
+
   const defaultDescription = t("footer.description");
   const defaultContact = {
     address: t("footer.contactInfo.address"),
@@ -90,130 +100,127 @@ export default function FooterArabic({
       ],
     },
   };
-  
-  return (
-    <footer dir={currentDir} className="w-full bg-[#EEF4FF] ">
-      <div className="mx-2 sm:mx-6 md:mx-10 lg:mx-16 xl:mx-24 2xl:mx-25  px-4 py-12 md:py-14">
-        {/* ✅ Responsive grid: 1 / 2 / 4 columns */}
-        <div className="grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full">
-          {/* Brand (عمود) */}
-          <div className={currentDir === 'rtl' ? 'text-right' : 'text-left'}>
-            <Link to={ROUTES.HOME}>
-              <img src={logo} alt="logo" className="inline-block h-10 w-auto cursor-pointer hover:opacity-80 transition-opacity" />
-            </Link>
 
-            <p className="mt-4 text-sm leading-relaxed text-slate-600">
+  const contactData = contact || defaultContact;
+  const socialLinks = [
+    { href: "https://facebook.com", Icon: Facebook, label: "Facebook" },
+    { href: "https://instagram.com", Icon: Instagram, label: "Instagram" },
+    { href: "https://twitter.com", Icon: Twitter, label: "Twitter" },
+    { href: "https://linkedin.com", Icon: Linkedin, label: "LinkedIn" },
+  ];
+
+  return (
+    <footer
+      dir={currentDir}
+      className="w-full bg-gradient-to-b from-slate-50 to-blue-50/50 border-t border-slate-200/80"
+    >
+      <div className="container-stockship py-12 md:py-16 xl:py-20 2xl:py-24">
+        {/* Grid */}
+        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Brand */}
+          <div className={isRTL ? "text-right sm:pr-4" : "text-left sm:pl-0"}>
+            <Link to={ROUTES.HOME} className="inline-block">
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-10 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+              />
+            </Link>
+            <p className="mt-5 text-sm leading-relaxed text-slate-600 max-w-xs">
               {description || defaultDescription}
             </p>
-
             <div className="mt-6">
-              <div className="text-sm font-semibold text-slate-900">
+              <p className="text-sm font-semibold text-slate-800 mb-3">
                 {t("footer.securePayment")}
-              </div>
-              <div className="mt-3 flex justify-start">
-                <img
-                  src={paymentMethod}
-                  alt="payment-method"
-                  className=" w-[60%] "
-                />
-              </div>
+              </p>
+              <img
+                src={paymentMethod}
+                alt="payment-method"
+                className="max-w-[200px] h-auto object-contain opacity-90"
+              />
             </div>
           </div>
 
-          {/* Account (عمود) */}
-          <div>
-            <FooterLinks {...(columns?.account || defaultColumns.account)} currentDir={currentDir} />
-          </div>
+          <FooterLinks
+            {...(columns?.account || defaultColumns.account)}
+            currentDir={currentDir}
+          />
+          <FooterLinks
+            {...(columns?.categories || defaultColumns.categories)}
+            currentDir={currentDir}
+          />
 
-          {/* Categories (عمود) */}
-          <div>
-            <FooterLinks {...(columns?.categories || defaultColumns.categories)} currentDir={currentDir} />
-          </div>
-
-          {/* Contact (عمود) */}
-          <div className={currentDir === 'rtl' ? 'text-right' : 'text-left'}>
-            <h4 className="mb-4 text-lg font-semibold text-slate-900">
+          {/* Contact */}
+          <div className={isRTL ? "text-right" : "text-left"}>
+            <h4 className="mb-5 text-base font-semibold text-slate-800 tracking-tight">
               {t("footer.contact")}
             </h4>
-
             <ul className="space-y-4 text-sm text-slate-600">
-              <li className={`flex items-start ${currentDir === 'rtl' ? 'justify-start' : 'justify-end'} gap-3`}>
-                <span className="leading-relaxed">{(contact || defaultContact).address}</span>
+              <li className={`flex items-start gap-3 ${isRTL ? "flex-row-reverse" : ""}`}>
+                <MapPin className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{contactData.address}</span>
               </li>
-              <li className={`flex items-start ${currentDir === 'rtl' ? 'justify-start' : 'justify-end'} gap-3`}>
-                <a 
-                  href={`tel:${(contact || defaultContact).phone}`}
-                  className="hover:text-(--accent) transition-colors"
+              <li className={`flex items-start gap-3 ${isRTL ? "flex-row-reverse" : ""}`}>
+                <Phone className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
+                <a
+                  href={`tel:${contactData.phone}`}
+                  className="hover:text-amber-600 transition-colors"
                 >
-                  {(contact || defaultContact).phone}
+                  {contactData.phone}
                 </a>
               </li>
-              <li className={`flex items-start ${currentDir === 'rtl' ? 'justify-start' : 'justify-end'} gap-3`}>
-                <a 
-                  href={`mailto:${(contact || defaultContact).email}`}
-                  className="hover:text-(--accent) transition-colors"
+              <li className={`flex items-start gap-3 ${isRTL ? "flex-row-reverse" : ""}`}>
+                <Mail className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
+                <a
+                  href={`mailto:${contactData.email}`}
+                  className="hover:text-amber-600 transition-colors break-all"
                 >
-                  {(contact || defaultContact).email}
+                  {contactData.email}
                 </a>
               </li>
-              <li className={`flex items-start ${currentDir === 'rtl' ? 'justify-start' : 'justify-end'} gap-3 whitespace-pre-line`}>
-                <span>{(contact || defaultContact).hours}</span>
+              <li className={`flex items-start gap-3 ${isRTL ? "flex-row-reverse" : ""}`}>
+                <Clock className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
+                <span className="whitespace-pre-line leading-relaxed">{contactData.hours}</span>
               </li>
             </ul>
 
-            <div className="mt-6 flex justify-start gap-3">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="grid h-10 w-10 place-items-center rounded-full bg-blue-500 text-white shadow-sm ring-1 ring-slate-200 hover:bg-blue-600 hover:scale-110 transition-all duration-200"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="grid h-10 w-10 place-items-center rounded-full bg-blue-500 text-white shadow-sm ring-1 ring-slate-200 hover:bg-blue-600 hover:scale-110 transition-all duration-200"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-                className="grid h-10 w-10 place-items-center rounded-full bg-blue-500 text-white shadow-sm ring-1 ring-slate-200 hover:bg-blue-600 hover:scale-110 transition-all duration-200"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="grid h-10 w-10 place-items-center rounded-full bg-blue-500 text-white shadow-sm ring-1 ring-slate-200 hover:bg-blue-600 hover:scale-110 transition-all duration-200"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
+            <div className={`mt-6 flex gap-3 ${isRTL ? "justify-end" : "justify-start"}`}>
+              {socialLinks.map(({ href, Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-200/80 text-slate-600 transition-all duration-200 hover:bg-blue-600 hover:text-white hover:scale-105"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="mt-12 h-px w-full bg-blue-400/60" />
+        {/* Divider */}
+        <div className="mt-12 pt-8 border-t border-slate-200/80" />
 
-        <div className="py-6 text-center text-sm text-blue-500">
-          {t("footer.rights")} © {t("footer.designedBy")}{" "}
-          <a 
-            href="https://www.qeematech.net/" 
-            target="_blank" 
-            rel="dofollow noreferrer"
-            className="hover:text-(--accent) hover:underline transition-colors"
-          >
-            Qeematech
-          </a>
+        {/* Copyright */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 py-4 text-center text-sm text-slate-500">
+          <span>
+            {t("footer.rights")} © {new Date().getFullYear()}
+          </span>
+          <span className="hidden sm:inline">·</span>
+          <span>
+            {t("footer.designedBy")}{" "}
+            <a
+              href="https://www.qeematech.net/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-blue-600 hover:text-amber-600 transition-colors underline-offset-2 hover:underline"
+            >
+              QeemaTech
+            </a>
+          </span>
         </div>
       </div>
     </footer>

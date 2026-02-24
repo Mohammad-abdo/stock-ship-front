@@ -18,7 +18,7 @@ export default function CtaBanner({
   return (
     <section
       dir={currentDir}
-      className="relative w-full overflow-hidden bg-[#1E4E8F] "
+      className="relative w-full overflow-hidden bg-[var(--stockship-primary)]"
       aria-label="Call to action"
     >
       {/* Watermark cart */}
@@ -30,8 +30,8 @@ export default function CtaBanner({
         />
       </div> */}
 
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-12 sm:py-14 md:py-16 text-center">
-        <h2 className="text-balance text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+      <div className="container-stockship flex flex-col items-center py-12 sm:py-14 md:py-16 xl:py-20 2xl:py-24 text-center">
+        <h2 className="text-balance text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl xl:text-5xl 2xl:text-6xl">
           {title || defaultTitle}
         </h2>
 
@@ -43,14 +43,14 @@ export default function CtaBanner({
           <button
             type="button"
             onClick={onClick}
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#F2B313] px-10 py-3 text-base font-bold text-[#1E4E8F] shadow-sm transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[#1E4E8F]"
+            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[var(--stockship-accent)] px-10 py-3 text-base font-bold text-[var(--stockship-primary)] shadow-sm transition-transform hover:scale-[1.02] hover:bg-[var(--stockship-accent-hover)] focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[var(--stockship-primary)]"
           >
             {ctaLabel || defaultCtaLabel}
           </button>
         ) : (
           <Link
             to={to}
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#F2B313] px-10 py-3 text-base font-bold text-[#1E4E8F] shadow-sm transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[#1E4E8F]"
+            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[var(--stockship-accent)] px-10 py-3 text-base font-bold text-[var(--stockship-primary)] shadow-sm transition-transform hover:scale-[1.02] hover:bg-[var(--stockship-accent-hover)] focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[var(--stockship-primary)]"
           >
             {ctaLabel || defaultCtaLabel}
           </Link>
