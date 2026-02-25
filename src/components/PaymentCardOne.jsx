@@ -105,7 +105,7 @@ export default function PaymentCardForm({ deal = null, dealId = null, fromQuote 
 
   return (
     <div dir={currentDir} className="min-h-screen bg-white pt-20 sm:pt-32 md:pt-40">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10">
+      <div className="container-stockship w-full max-w-4xl py-6 sm:py-8 lg:py-10">
         <h1 className={`text-2xl font-bold text-slate-900 mb-6 ${currentDir === 'rtl' ? 'text-right' : 'text-left'}`}>
           {t("payment.pageTitle") || (i18n.language === 'ar' ? 'صفحة الدفع' : 'Payment page')}
         </h1>

@@ -57,7 +57,7 @@ export default function RecommendedProducts() {
             <div className="text-slate-500">{t("common.loading") || "Loading..."}</div>
           </div>
         ) : products.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-x-6 gap-y-6 xl:gap-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-6 xl:gap-8">
             {products.map((p) => (
               <ProductCard
                 key={p.id}

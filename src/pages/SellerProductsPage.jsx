@@ -529,7 +529,7 @@ export default function SellerProductsPage() {
     <div>
       <Header />
       <div dir={currentDir} className="min-h-screen bg-white pt-40">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+        <div className="container-stockship py-6 sm:py-8 lg:py-10">
           {/* Header */}
           <div className="bg-[#EEF4FF] rounded-lg px-6 py-4 mb-6 flex items-center justify-between">
             <div>

@@ -349,7 +349,7 @@ export default function NegotiationDetailPage() {
     return (
       <MainLayout>
         <div className="min-h-screen bg-white mt-40">
-          <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+          <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
             <div className="text-center text-slate-600">
               {t("negotiations.notAuthenticated") || "يجب تسجيل الدخول لعرض التفاوض"}
             </div>
@@ -363,7 +363,7 @@ export default function NegotiationDetailPage() {
     return (
       <MainLayout>
         <div className="min-h-screen bg-white mt-40">
-          <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+          <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
             <div className="text-center text-slate-500">
               {t("common.loading") || "جاري التحميل..."}
             </div>
@@ -377,7 +377,7 @@ export default function NegotiationDetailPage() {
     return (
       <MainLayout>
         <div className="min-h-screen bg-white mt-40">
-          <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+          <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
             <div className="text-center text-slate-600">
               {t("negotiations.dealNotFound") || "لم يتم العثور على الصفقة"}
             </div>
@@ -390,7 +390,7 @@ export default function NegotiationDetailPage() {
   return (
     <MainLayout>
       <div dir={currentDir} className="min-h-screen bg-white pt-40">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+        <div className="container-stockship py-6 sm:py-8 lg:py-10">
           {/* Header */}
           <div className="bg-[#EEF4FF] rounded-lg px-6 py-4 mb-6 flex items-center justify-between">
             <div>

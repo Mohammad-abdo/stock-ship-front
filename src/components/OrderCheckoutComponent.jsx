@@ -159,7 +159,7 @@ export default function OrderCheckoutComponent() {
 
   return (
     <div dir={currentDir} className="min-h-screen bg-white mt-40 w-full">
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-25">
+      <div className="container-stockship pt-20 sm:pt-24 lg:pt-28">
         
         {/* Navigation Links */}
         <div className={`mb-6 flex flex-wrap items-center gap-4 text-sm ${currentDir === 'rtl' ? '' : 'flex-row-reverse'}`}>

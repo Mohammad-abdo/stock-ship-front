@@ -1,9 +1,9 @@
 // Navbar.jsx
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../routes";
 import logo from "../assets/imgs/Group20.png";
-import camera from "../assets/imgs/camera.png";
+import SearchBar from "./SearchBar";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { categoryService } from "../services/categoryService";
@@ -23,7 +23,6 @@ import dropdown from "../assets/imgs/arrow-down.png";
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -104,13 +103,13 @@ export default function Navbar() {
     fetchCategories();
   }, [t]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`${ROUTES.PRODUCTS_LIST}?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-    }
-  };
+  // Sync search field from URL when on products list
+  const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get("q");
+    if (q != null) setSearchQuery(q);
+  }, [location.pathname, location.search]);
 
   const menuItems = useMemo(
     () => [
@@ -167,32 +166,19 @@ export default function Navbar() {
 
   return (
     <header dir={currentDir} className="w-full relative z-[60]" ref={rootRef}>
-      <nav
-        className="
-          w-full bg-(--nav-bg)
-          flex items-center justify-between
-          px-3 sm:px-4 md:px-6 lg:px-10 xl:px-24 2xl:px-32
-          py-1.5 sm:py-2 md:py-2.5 xl:py-3
-          gap-2 sm:gap-3 xl:gap-4
-        "
-      >
+      <nav className="w-full bg-(--nav-bg) py-2 sm:py-2.5 md:py-3">
+        <div className="container-stockship flex items-center justify-between gap-2 sm:gap-3 lg:gap-4">
         <Link to={ROUTES.HOME} className="flex items-center justify-end shrink-0">
           <img src={logo} alt="logo" className="h-6 sm:h-7 md:h-8 lg:h-9 xl:h-10 2xl:h-11 w-auto" />
         </Link>
 
-        <form
-          onSubmit={handleSearch}
-          className="hidden lg:flex flex-1 max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-2 lg:mx-4 xl:mx-6 h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 items-center justify-between gap-2 sm:gap-3 bg-(--white) rounded-lg px-3 md:px-4 xl:px-5"
-        >
-          <img src={camera} alt="camera" className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 shrink-0" />
-          <input
-            type="text"
+        <div className="hidden lg:flex flex-1 max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-2 lg:mx-4">
+          <SearchBar
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={t("nav.search")}
-            className="w-full h-7 direction-rtl text-right outline-none border-0 bg-transparent text-lg sm:text-sm"
+            onChange={setSearchQuery}
+            className="w-full"
           />
-        </form>
+        </div>
 
         <div className="hidden lg:flex items-center gap-2 sm:gap-3 shrink-0">
           {!isAuthenticated ? (
@@ -211,7 +197,7 @@ export default function Navbar() {
                 <Link to={ROUTES.SIGNUP_BANK_INFO}>
                   <button className="h-8 sm:h-9 md:h-10 lg:h-11 px-2 sm:px-3 md:px-4 lg:px-5 rounded-[5px] bg-(--accent) flex items-center justify-center">
                     <span className="text-(--primary) font-bold text-[12px] sm:text-[12px] md:text-[14px] lg:text-[16px] leading-[150%] whitespace-nowrap">
-                      {t("nav.beSeller")}
+                      {t("nav.registerAsTrader")}
                     </span>
                   </button>
                 </Link>
@@ -299,6 +285,7 @@ export default function Navbar() {
         >
           <span className="text-xl leading-none">☰</span>
         </button>
+        </div>
       </nav>
 
       {isSidebarOpen && (
@@ -427,7 +414,7 @@ export default function Navbar() {
                     onClick={closeSidebar}
                     className="w-full rounded-xl bg-(--accent) px-4 py-3 text-center font-['Tajawal'] font-bold text-(--primary) block"
                   >
-                    {t("nav.beSeller")}
+                    {t("nav.registerAsTrader")}
                   </Link>
                 )}
 
@@ -480,19 +467,14 @@ export default function Navbar() {
                 </div>
                 
 
-                <form
-                  onSubmit={handleSearch}
-                  className="mt-1 w-full h-11 flex items-center justify-between gap-3 bg-(--white) rounded-[5px] px-3 ring-1 ring-slate-200"
-                >
-                  <img src={camera} alt="camera" className="h-5 w-5 shrink-0" />
-                  <input
-                    type="text"
+                <div className="mt-1 w-full">
+                  <SearchBar
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={t("nav.search")}
-                    className="w-full h-8 direction-rtl text-right outline-none border-0 bg-transparent"
+                    onChange={setSearchQuery}
+                    compact
+                    className="rounded-xl border border-slate-200"
                   />
-                </form>
+                </div>
               </div>
 
               <div className="h-6" />

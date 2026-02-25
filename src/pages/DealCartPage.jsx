@@ -110,7 +110,7 @@ export default function DealCartPage() {
   return (
     <MainLayout>
       <div className="min-h-screen bg-white mt-40">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 py-8">
+        <div className="container-stockship max-w-4xl py-6 sm:py-8 lg:py-10">
           <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
               <button

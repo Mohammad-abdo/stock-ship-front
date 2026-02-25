@@ -258,7 +258,7 @@ export default function ProductDetailsComponent({ offerId }) {
     return (
       <div dir={currentDir} className="min-h-screen bg-white text-slate-900">
         <div className="w-full pt-25 sm:pt-30 md:pt-30 lg:pt-55 xl:pt-55 2xl:pt-55">
-          <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+          <div className="container-stockship">
             <div className="flex items-center justify-center py-12">
               <div className="text-slate-500">{t("common.loading") || "Loading..."}</div>
             </div>
@@ -272,7 +272,7 @@ export default function ProductDetailsComponent({ offerId }) {
     return (
       <div dir={currentDir} className="min-h-screen bg-white text-slate-900">
         <div className="w-full pt-25 sm:pt-30 md:pt-30 lg:pt-55 xl:pt-55 2xl:pt-55">
-          <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+          <div className="container-stockship">
             <div className="flex items-center justify-center py-12">
               <div className="text-slate-500">{t("productDetails.offerNotFound") || t("common.notFound") || "Offer not found"}</div>
             </div>
@@ -285,7 +285,7 @@ export default function ProductDetailsComponent({ offerId }) {
   return (
     <div dir={currentDir} className="min-h-screen bg-white text-slate-900">
       <div className="w-full pt-25 sm:pt-30 md:pt-30 lg:pt-55 xl:pt-55 2xl:pt-55">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+        <div className="container-stockship">
           <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
             {/* RIGHT: Gallery */}
             <div className="space-y-3 sm:space-y-4">

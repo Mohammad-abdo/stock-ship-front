@@ -67,7 +67,7 @@ function ProfileContent() {
 
   return (
     <MainLayout className="dir-rtl" contentClassName="min-h-screen bg-slate-50 pt-40 pb-20">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+      <div className="container-stockship max-w-4xl py-6 sm:py-8 lg:py-10">
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
           <h1 className="text-2xl font-bold text-slate-900 mb-6">الملف الشخصي</h1>
 

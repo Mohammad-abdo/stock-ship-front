@@ -7,12 +7,28 @@ import { categoryService } from "../services/categoryService";
 import { ROUTES } from "../routes";
 import { ChevronLeft } from "lucide-react";
 
+function getCategoryDisplayName(data, lang, t) {
+  if (!data) return t("categoryPage.category");
+  const isAr = lang === "ar";
+  const name = isAr ? data.nameAr : data.nameEn;
+  if (name) return name;
+  if (data.nameAr || data.nameEn) return data.nameAr || data.nameEn;
+  if (data.name) return data.name;
+  if (data.title) return data.title;
+  if (data.nameKey) {
+    const key = data.nameKey.replace(/^category\./, "categories.");
+    const translated = t(key);
+    return translated !== key ? translated : data.nameKey;
+  }
+  return t("categoryPage.category");
+}
+
 export default function CategoryPage() {
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const currentDir = i18n.language === "ar" ? "rtl" : "ltr";
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryData, setCategoryData] = useState(null);
   const [categoryLoading, setCategoryLoading] = useState(true);
 
   useEffect(() => {
@@ -24,22 +40,23 @@ export default function CategoryPage() {
       .then((res) => {
         if (cancelled) return;
         const data = res.data?.data || res.data;
-        const name = data?.nameAr || data?.nameEn || data?.name || data?.title || t("categoryPage.category") || "التصنيف";
-        setCategoryName(name);
+        setCategoryData(data || null);
       })
       .catch(() => {
-        if (!cancelled) setCategoryName(t("categoryPage.category") || "التصنيف");
+        if (!cancelled) setCategoryData(null);
       })
       .finally(() => {
         if (!cancelled) setCategoryLoading(false);
       });
     return () => { cancelled = true; };
-  }, [categoryId, t]);
+  }, [categoryId]);
+
+  const categoryName = getCategoryDisplayName(categoryData, i18n.language, t);
 
   return (
     <MainLayout>
       <div dir={currentDir} className="min-h-screen bg-white pt-40">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6">
+        <div className="container-stockship py-6 sm:py-8 lg:py-10">
           {/* Header */}
           <div className="bg-[#EEF4FF] rounded-lg px-6 py-4 mb-6 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -47,16 +64,16 @@ export default function CategoryPage() {
                 type="button"
                 onClick={() => navigate(ROUTES.HOME)}
                 className="p-2 hover:bg-white/50 rounded-full transition-colors shrink-0"
-                aria-label={t("common.back") || "Back"}
+                aria-label={t("common.back")}
               >
                 <ChevronLeft className="h-5 w-5 text-slate-600" />
               </button>
               <h1 className="text-xl font-bold text-slate-900 truncate">
-                {categoryLoading ? (t("common.loading") || "جاري التحميل...") : categoryName}
+                {categoryLoading ? t("common.loading") : categoryName}
               </h1>
             </div>
             <div className="text-sm text-slate-600 shrink-0">
-              {t("categoryPage.offersInCategory") || "عروض التصنيف"}
+              {t("categoryPage.offersInCategory")}
             </div>
           </div>
 

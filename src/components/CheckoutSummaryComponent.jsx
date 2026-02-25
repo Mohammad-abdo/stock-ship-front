@@ -41,7 +41,7 @@ export default function CheckoutSummaryComponent() {
 
   return (
     <div dir={currentDir} className="w-full bg-white mt-50 mb-10">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-6 space-y-8">
+      <div className="container-stockship w-full max-w-4xl py-6 sm:py-8 space-y-8">
         
 
         {/* Shipping address */}

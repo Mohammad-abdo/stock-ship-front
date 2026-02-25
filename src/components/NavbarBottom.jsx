@@ -13,12 +13,10 @@ import lucide_box from "../assets/imgs/lucide_box.png";
 import translate from "../assets/imgs/translate.png";
 
 import Vector from "../assets/imgs/Vector.png";
-import lamp from "../assets/imgs/lamp.png";
-import smartphone from "../assets/imgs/smart-phone-01.png";
-import shoes from "../assets/imgs/running-shoes.png";
-import shirt from "../assets/imgs/shirt-01.png";
 import textalign from "../assets/imgs/textalign-left.png";
 import dropdown from "../assets/imgs/arrow-down.png";
+
+const VISIBLE_CATEGORIES_COUNT = 5;
 
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
@@ -273,110 +271,142 @@ export default function NavbarBottom() {
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <div className="w-full rounded-b-[50px] shadow-[0_-8px_24px_rgba(0,0,0,0.10)] bg-(--bottom-bg)">
-        <div className="px-2 sm:px-4 md:px-6 lg:px-10 py-2 sm:py-3 lg:py-4">
+      <div className="w-full rounded-b-2xl lg:rounded-b-3xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border-b border-slate-200/60 bg-(--bottom-bg)">
+        <div className="container-stockship py-2.5 sm:py-3 lg:py-3.5">
           {/* Desktop Layout */}
-          <div className="hidden lg:flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1 shrink-0">
-            {categories.length > 0 ? categories.map((item) => {
-              const isActive = openDropdown?.key === item.key;
-              return (
-                <button
-                  key={item.key}
-                  type="button"
-                  onClick={(e) => openPortalDropdown(e, item)}
-                  className={`shrink-0 flex items-center gap-2 h-12 border-r-[0.5px] border-(--bottom-divider) pe-2 ps-2 transition-colors ${
-                    isActive 
-                      ? " text-(--accent)" 
-                      : "bg-transparent text-(--bottom-text) hover:bg-blue-50"
-                  }`}
-                >
-                  <img
-                    src={dropdown}
-                    alt="arrow"
-                    className={`w-5 h-5 object-contain opacity-70 transition ${
-                      isActive ? "rotate-180 text-(--accent)" : ""
-                    }`}
-                  />
-                  <span className="font-['Tajawal'] font-bold text-[12px] sm:text-[12px] md:text-[12px] lg:text-[14px] xl:text-[16px] whitespace-nowrap hidden xl:inline">
-                    {item.label}
-                  </span>
-                  <img 
-                    src={item.icon} 
-                    alt={item.label} 
-                    className={`w-5 h-5 object-contain ${isActive ? "brightness-0 invert " : ""}`}
-                  />
-                </button>
-              );
-            }) : (
-              <div className="text-sm text-slate-500 px-2">{t("common.loading") || "Loading..."}</div>
-            )}
+          <div className="hidden lg:flex items-center justify-between gap-3 min-h-[52px]">
+            {/* الفئات + المزيد بجانب بعض */}
+            <div className="flex items-center gap-0 shrink-0 overflow-x-auto scrollbar-none">
+              {categories.length > 0 ? (
+                <>
+                    {/* المزيد بجانب الفئات */}
+                    {categories.length > VISIBLE_CATEGORIES_COUNT && (() => {
+                    const moreCategories = categories.slice(VISIBLE_CATEGORIES_COUNT);
+                    const moreItem = {
+                      key: "more-categories",
+                      label: t("categories.moreCategories"),
+                      icon: textalign,
+                      children: moreCategories.map((cat) => ({
+                        label: cat.label,
+                        to: `${ROUTES.CATEGORY}/${cat.id}`
+                      }))
+                    };
+                    const isActive = openDropdown?.key === moreItem.key;
+                    return (
+                      <button
+                        key={moreItem.key}
+                        type="button"
+                        onClick={(e) => openPortalDropdown(e, moreItem)}
+                        className={`shrink-0 flex items-center gap-2 h-11 xl:h-12 border-r border-(--bottom-divider) pe-3 ps-3 transition-colors rounded-none ${
+                          isActive
+                            ? "bg-(--accent) text-white"
+                            : "bg-transparent text-(--bottom-text) hover:bg-blue-50/70"
+                        }`}
+                      >
+                        <img
+                          src={moreItem.icon}
+                          alt=""
+                          className={`w-5 h-5 object-contain shrink-0 ${isActive ? "brightness-0 invert" : ""}`}
+                        />
+                        <span className="font-['Tajawal'] font-bold text-[12px] lg:text-[13px] xl:text-[14px] whitespace-nowrap">
+                          {moreItem.label}
+                        </span>
+                        <img
+                          src={dropdown}
+                          alt=""
+                          className={`w-4 h-4 object-contain opacity-70 shrink-0 transition-transform ${isActive ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    );
+                  })()}
+                  {categories.slice(0, VISIBLE_CATEGORIES_COUNT).map((item) => {
+                    const isActive = openDropdown?.key === item.key;
+                    return (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={(e) => openPortalDropdown(e, item)}
+                        className={`shrink-0 flex items-center gap-2 h-11 xl:h-12 border-r border-(--bottom-divider) pe-3 ps-3 transition-colors rounded-none first:rounded-s-lg last:border-r-0 ${
+                          isActive
+                            ? "text-(--accent) bg-blue-50"
+                            : "bg-transparent text-(--bottom-text) hover:bg-blue-50/70"
+                        }`}
+                      >
+                        <img
+                          src={item.icon}
+                          alt=""
+                          className={`w-5 h-5 object-contain shrink-0 ${isActive ? "brightness-0 saturate-100 opacity-90" : ""}`}
+                        />
+                        <span className="font-['Tajawal'] font-bold text-[12px] lg:text-[13px] xl:text-[14px] whitespace-nowrap">
+                          {item.label}
+                        </span>
+                        <img
+                          src={dropdown}
+                          alt=""
+                          className={`w-4 h-4 object-contain opacity-70 shrink-0 transition-transform ${isActive ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    );
+                  })}
+              
+                </>
+              ) : (
+                <div className="text-sm text-slate-500 px-3 py-2">{t("common.loading") || "Loading..."}</div>
+              )}
             </div>
 
-            <div className="flex items-center gap-0 flex-1 justify-end overflow-x-auto">
-              
+            {/* طلباتي، الإشعارات، اللغة */}
+            <div className="flex items-center gap-0 flex-1 justify-end shrink-0 ms-2 lg:ms-4 border-s border-(--bottom-divider) ps-2 lg:ps-4">
               {menuItems.map((item) => {
                 const isDropdownActive = openDropdown?.key === item.key;
                 const isLinkActive = item.to && location.pathname === item.to;
                 const isActive = isDropdownActive || isLinkActive;
-                
+                const btnClass = `flex items-center gap-2 h-11 xl:h-12 border-r border-(--bottom-divider) pe-3 ps-3 transition-colors rounded-none last:border-r-0 ${
+                  isActive
+                    ? "bg-(--accent) text-white"
+                    : "bg-transparent text-(--bottom-text) hover:bg-blue-50/70"
+                }`;
                 return (
                   <div key={item.key} className="shrink-0">
                     {(item.children || item.isLanguage) ? (
                       <button
                         type="button"
                         onClick={(e) => openPortalDropdown(e, item)}
-                        className={`flex items-center gap-1 h-12 border-r-[0.5px] border-(--bottom-divider) pe-2 ps-2 transition-colors ${
-                          isActive 
-                            ? "bg-(--accent) text-white" 
-                            : "bg-transparent text-(--bottom-text) hover:bg-blue-50"
-                        }`}
+                        className={btnClass}
                       >
                         <img
                           src={dropdown}
-                          alt="arrow"
-                          className={`w-5 h-5 object-contain opacity-70 transition ${
-                            isDropdownActive ? "rotate-180" : ""
-                          }`}
+                          alt=""
+                          className={`w-4 h-4 object-contain opacity-70 transition-transform ${isDropdownActive ? "rotate-180" : ""}`}
                         />
-                       
-                        <span className="font-['Tajawal'] font-bold text-[12px] sm:text-[12px] md:text-[12px] lg:text-[14px] xl:text-[16px] whitespace-nowrap hidden xl:inline">
+                        <span className="font-['Tajawal'] font-bold text-[12px] lg:text-[13px] xl:text-[14px] whitespace-nowrap">
                           {item.label}
                         </span>
-
-                         <img 
-                           src={item.icon} 
-                           alt={item.label} 
-                           className={`w-5 h-5 object-contain ${isActive ? "brightness-0 invert" : ""}`}
-                         />
-                        
-                      </button>
-                  ) : (
-                    <Link
-                      to={item.to || "#"}
-                      className={`flex items-center gap-1 h-12 border-r-[0.5px] border-(--bottom-divider) pe-2 ps-2 transition-colors ${
-                        isActive 
-                          ? "text-(--accent)" 
-                          : "bg-transparent text-(--bottom-text) hover:bg-blue-50"
-                      }`}
-                    >
-                      <span className="font-['Tajawal'] font-bold text-[12px] sm:text-[12px] md:text-[12px] lg:text-[14px] xl:text-[16px] whitespace-nowrap hidden xl:inline">
-                        {item.label}
-                      </span>
-                      <span className="relative inline-block">
-                        <img 
-                          src={item.icon} 
-                          alt={item.label} 
-                          className={`w-5 h-5 object-contain ${isActive ? "brightness-0 invert" : ""}`}
+                        <img
+                          src={item.icon}
+                          alt=""
+                          className={`w-5 h-5 object-contain shrink-0 ${isActive ? "brightness-0 invert" : ""}`}
                         />
-                        {item.key === "noti" && unreadCount > 0 && (
-                          <span className="absolute -top-1.5 -end-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold leading-none">
-                            {unreadCount > 99 ? "99+" : unreadCount}
-                          </span>
-                        )}
-                      </span>
-                    </Link>
-                  )}
+                      </button>
+                    ) : (
+                      <Link to={item.to || "#"} className={btnClass}>
+                        <span className="font-['Tajawal'] font-bold text-[12px] lg:text-[13px] xl:text-[14px] whitespace-nowrap">
+                          {item.label}
+                        </span>
+                        <span className="relative inline-block">
+                          <img
+                            src={item.icon}
+                            alt=""
+                            className={`w-5 h-5 object-contain shrink-0 ${isActive ? "brightness-0 invert" : ""}`}
+                          />
+                          {item.key === "noti" && unreadCount > 0 && (
+                            <span className="absolute -top-1.5 -end-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold leading-none">
+                              {unreadCount > 99 ? "99+" : unreadCount}
+                            </span>
+                          )}
+                        </span>
+                      </Link>
+                    )}
                   </div>
                 );
               })}
@@ -386,30 +416,71 @@ export default function NavbarBottom() {
           {/* Mobile/Tablet Layout */}
           <div className="lg:hidden flex items-center justify-between gap-1 overflow-x-auto">
             <div className="flex items-center gap-0.5 shrink-0">
-              {categories.length > 0 ? categories.slice(0, 3).map((item) => {
-                const isActive = openDropdown?.key === item.key;
+              {categories.length > 0 ? (() => {
+                const visibleCategories = categories.slice(0, VISIBLE_CATEGORIES_COUNT);
                 return (
-                  <button
-                    key={item.key}
-                    type="button"
-                    onClick={(e) => openPortalDropdown(e, item)}
-                    className={`shrink-0 flex items-center gap-1 h-10 px-1.5 sm:px-2 border-r-[0.5px] border-(--bottom-divider) transition-colors ${
-                      isActive 
-                        ? "bg-(--accent) text-white" 
-                        : "bg-transparent text-(--bottom-text) hover:bg-blue-50"
-                    }`}
-                  >
-                    <img 
-                      src={item.icon} 
-                      alt={item.label} 
-                      className={`w-4 h-4 object-contain ${isActive ? "brightness-0 invert" : ""}`}
-                    />
-                    <span className="font-['Tajawal'] font-bold text-[10px] sm:text-[11px] whitespace-nowrap hidden sm:inline">
-                      {item.label}
-                    </span>
-                  </button>
+                  <>
+                    {visibleCategories.map((item) => {
+                      const isActive = openDropdown?.key === item.key;
+                      return (
+                        <button
+                          key={item.key}
+                          type="button"
+                          onClick={(e) => openPortalDropdown(e, item)}
+                          className={`shrink-0 flex items-center gap-1 h-10 px-1.5 sm:px-2 border-r-[0.5px] border-(--bottom-divider) transition-colors ${
+                            isActive 
+                              ? "bg-(--accent) text-white" 
+                              : "bg-transparent text-(--bottom-text) hover:bg-blue-50"
+                          }`}
+                        >
+                          <img 
+                            src={item.icon} 
+                            alt={item.label} 
+                            className={`w-4 h-4 object-contain ${isActive ? "brightness-0 invert" : ""}`}
+                          />
+                          <span className="font-['Tajawal'] font-bold text-[10px] sm:text-[11px] whitespace-nowrap hidden sm:inline">
+                            {item.label}
+                          </span>
+                        </button>
+                      );
+                    })}
+                    {categories.length > VISIBLE_CATEGORIES_COUNT && (() => {
+                      const moreCategories = categories.slice(VISIBLE_CATEGORIES_COUNT);
+                      const moreItem = {
+                        key: "more-categories",
+                        label: t("categories.moreCategories"),
+                        icon: textalign,
+                        children: moreCategories.map((cat) => ({
+                          label: cat.label,
+                          to: `${ROUTES.CATEGORY}/${cat.id}`
+                        }))
+                      };
+                      const isActive = openDropdown?.key === moreItem.key;
+                      return (
+                        <button
+                          key={moreItem.key}
+                          type="button"
+                          onClick={(e) => openPortalDropdown(e, moreItem)}
+                          className={`shrink-0 flex items-center gap-1 h-10 px-1.5 sm:px-2 border-r-[0.5px] border-(--bottom-divider) transition-colors ${
+                            isActive 
+                              ? "bg-(--accent) text-white" 
+                              : "bg-transparent text-(--bottom-text) hover:bg-blue-50"
+                          }`}
+                        >
+                          <img 
+                            src={moreItem.icon} 
+                            alt={moreItem.label} 
+                            className={`w-4 h-4 object-contain ${isActive ? "brightness-0 invert" : ""}`}
+                          />
+                          <span className="font-['Tajawal'] font-bold text-[10px] sm:text-[11px] whitespace-nowrap hidden sm:inline">
+                            {moreItem.label}
+                          </span>
+                        </button>
+                      );
+                    })()}
+                  </>
                 );
-              }) : (
+              })() : (
                 <div className="text-xs text-slate-500 px-2">جاري التحميل...</div>
               )}
             </div>

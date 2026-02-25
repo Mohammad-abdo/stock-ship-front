@@ -1,11 +1,12 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Star, Heart, LayoutGrid, List, ChevronDown, X } from "lucide-react";
+import { Star, Heart, LayoutGrid, List, ChevronDown, X, ImageIcon, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import { getProductDetailsUrl } from "../routes";
+import { getProductDetailsUrl, ROUTES } from "../routes";
 import { useFilters } from "../hooks/useFilters";
 import { offerService } from "../services/offerService";
 import { transformOffersToProducts } from "../utils/offerTransformers";
+import { getFileUrl } from "../services/api";
 
 const StarRating = ({ value = 5 }) => {
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
@@ -22,7 +23,7 @@ const StarRating = ({ value = 5 }) => {
   );
 };
 
-export default function ProductsListComponent({ categoryId = null, categorySlug = null, search = null, compactTop = false }) {
+export default function ProductsListComponent({ categoryId = null, categorySlug = null, search = null, searchByImage = false, imageUrl = null, compactTop = false }) {
   const { t, i18n } = useTranslation();
   const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
   const [products, setProducts] = useState([]);
@@ -145,9 +146,9 @@ export default function ProductsListComponent({ categoryId = null, categorySlug 
   if (loading && products.length === 0) {
     return (
       <div className={`min-h-screen bg-white ${compactTop ? 'pt-4' : 'pt-50'}`}>
-        <div className="mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6">
+        <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
           <div className="flex items-center justify-center py-12">
-            <div className="text-slate-500">جاري التحميل...</div>
+            <div className="text-slate-500">{t("common.loading")}</div>
           </div>
         </div>
       </div>
@@ -156,7 +157,34 @@ export default function ProductsListComponent({ categoryId = null, categorySlug 
 
   return (
     <div className={`min-h-screen bg-white ${compactTop ? 'pt-4' : 'pt-50'}`}>
-      <div className="mx-auto w-full  px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6">
+      <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
+        {/* Search by image banner */}
+        {searchByImage && imageUrl && (
+          <div className={`mb-6 rounded-2xl border border-slate-200 bg-gradient-to-br from-blue-50 to-white p-4 sm:p-5 flex flex-wrap items-center gap-4 ${currentDir === 'rtl' ? 'flex-row-reverse' : ''}`}>
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="w-14 h-14 rounded-xl bg-white border border-slate-200 overflow-hidden shadow-sm flex items-center justify-center">
+                <img src={getFileUrl(imageUrl)} alt="" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex items-center gap-2 text-(--primary)">
+                <ImageIcon className="h-6 w-6" />
+                <span className="font-bold text-slate-800">{t("products.searchByImageResults", "نتائج البحث بالصورة")}</span>
+              </div>
+            </div>
+            <p className="text-sm text-slate-600">
+              {t("products.searchByImageResultsHint", "عرض المنتجات والعروض. يمكن ربط البحث بالصورة بذكاء لاحقاً.")}
+            </p>
+          </div>
+        )}
+
+        {/* Search query headline */}
+        {search && !searchByImage && (
+          <div className={`mb-4 flex items-center gap-2 ${currentDir === 'rtl' ? 'flex-row-reverse' : ''}`}>
+            <h2 className="text-lg font-bold text-slate-800">
+              {t("products.searchResultsFor", { query: search })}
+            </h2>
+          </div>
+        )}
+
         {/* Filters and Controls */}
         <div className={`flex items-center justify-between gap-3 flex-wrap ${currentDir === 'rtl' ? 'flex-row-reverse' : ''}`}>
           {/* Sort Dropdown */}
@@ -251,22 +279,40 @@ export default function ProductsListComponent({ categoryId = null, categorySlug 
 
         {/* No Results */}
         {filteredItems.length === 0 && (
-          <div className="mt-8 rounded-md border border-slate-200 bg-slate-50 p-8 text-center">
-            <p className="text-sm text-slate-600">{t("products.noResults")}</p>
-            {activeFilterCount > 0 && (
-              <button
-                type="button"
-                onClick={resetFilters}
-                className="mt-4 text-sm text-blue-600 hover:text-blue-800 underline"
+          <div className={`mt-8 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-8 sm:p-10 text-center ${currentDir === 'rtl' ? 'text-right' : 'text-left'}`}>
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-slate-100 text-slate-400 mb-4">
+              <Search className="h-7 w-7" />
+            </div>
+            <p className="text-base font-medium text-slate-800">{t("products.noResults")}</p>
+            <p className="mt-2 text-sm text-slate-600 max-w-md mx-auto">
+              {t("products.noResultsTry")}
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              {activeFilterCount > 0 && (
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50"
+                >
+                  {t("products.clearFilters")}
+                </button>
+              )}
+              <Link
+                to={ROUTES.HOME}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90"
               >
-                {t("products.clearFilters")}
-              </button>
-            )}
+                <ImageIcon className="h-4 w-4" />
+                {t("products.trySearchByImage")}
+              </Link>
+            </div>
+            <p className="mt-4 text-xs text-slate-500">
+              {t("products.noResultsUseSearchBar")}
+            </p>
           </div>
         )}
 
         {view === "grid" ? (
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-6 xl:gap-6">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-6 xl:gap-6">
             {filteredItems.map((p) => {
               const activeImg = selectedImages[p.id] || p.mainImg;
               const isLiked = liked[p.id];

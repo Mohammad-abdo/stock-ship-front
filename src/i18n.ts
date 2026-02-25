@@ -2,14 +2,14 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import ar from './locales/ar/common.json';
 import en from './locales/en/common.json';
+import zh from './locales/zh/common.json';
 
 // Get language from localStorage or default to Arabic
 const getInitialLanguage = (): string => {
   const saved = localStorage.getItem('lang');
-  if (saved === 'ar' || saved === 'en') {
+  if (saved === 'ar' || saved === 'en' || saved === 'zh') {
     return saved;
   }
-  // Default to Arabic
   localStorage.setItem('lang', 'ar');
   return 'ar';
 };
@@ -20,17 +20,14 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      ar: {
-        translation: ar,
-      },
-      en: {
-        translation: en,
-      },
+      ar: { translation: ar },
+      en: { translation: en },
+      zh: { translation: zh },
     },
     lng: initialLanguage,
-    fallbackLng: 'ar',
+    fallbackLng: ['en', 'ar'],
     interpolation: {
-      escapeValue: false, // React already escapes
+      escapeValue: false,
     },
   });
 

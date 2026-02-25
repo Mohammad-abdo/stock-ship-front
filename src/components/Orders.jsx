@@ -118,7 +118,7 @@ export default function Orders() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-white mt-40">
-        <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+        <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
           <div className="text-center text-slate-600">
             {t("orders.noOrders")}
           </div>
@@ -129,7 +129,7 @@ export default function Orders() {
 
   return (
     <div className="min-h-screen bg-white mt-40">
-      <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8">
+      <div className="container-stockship w-full py-6 sm:py-8 lg:py-10">
         <div className={`flex items-center justify-start gap-3 ${currentDir === 'rtl' ? 'flex-row-reverse' : 'flex-row'}`}>
           {TABS.map((tab) => {
             const active = activeStatus === tab.key;

@@ -20,7 +20,7 @@ export const ROUTES = {
   LOGIN: "/login",
   MULTI_LOGIN: "/multi-login",
   SIGNUP: "/signup",
-  SIGNUP_BANK_INFO: "/SignupBankInfoFormPage",
+  SIGNUP_BANK_INFO: "/register-as-trader",
   
   // Order pages
   ORDERS: "/OrdersPage",
